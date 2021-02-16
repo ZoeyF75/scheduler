@@ -1,50 +1,29 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
-import tweets from './tweets.json';
-
-import "./styles.css";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 
 import "index.scss";
 
-// import Application from "components/Application";
+import Button from "components/Button";
 
+// import Application from "components/Application";
 // ReactDOM.render(<Application />, document.getElementById("root"));
 
-const tweet = tweets[0];
+storiesOf("Button", module)
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+  })
+  .add("Base", () => <Button>Base</Button>)
+  .add("Confirm", () => <Button confirm>Confirm</Button>)
+  .add("Danger", () => <Button danger>Cancel</Button>)
+  .add("Clickable", () => (
+    <Button onClick={action("button-clicked")}>Clickable</Button>
+  ))
+  .add("Disabled", () => (
+    <Button disabled onClick={action("button-clicked")}>
+      Disabled
+    </Button>
+  ));
 
-function Tweet(props) {
-  return (
-    <article className="tweet">
-      <header className="tweet__header">
-        <img className="tweet__header-avatar" src={ props.avatar } />
-        <h2 className="tweet__header-name">{ props.name }</h2>
-      </header>
-      <main className="tweet__content">
-        <p>{ props.content }</p>
-      </main>
-      <footer className="tweet__footer">{ props.date }</footer>
-    </article>
-  );
-}
 
-function TweetList(props) {
-  const tweets = props.tweets.map(tweet => {
-    return (
-      <Tweet
-        key={tweet.id}
-        name={tweet.name}
-        avatar={tweet.avatar}
-        content={tweet.content}
-        date={tweet.date}
-      />
-    );
-  });
-
-  return tweets;
-}
-
-ReactDOM.render(
-  <TweetList tweets={tweets} />,
-  document.getElementById("root")
-);
