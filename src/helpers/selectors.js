@@ -1,6 +1,6 @@
 import InterviewerList from "components/InterviewerList";
 
-export default function getAppointmentsForDay(state, day) {
+export function getAppointmentsForDay(state, day) {
   const appointmentsOnDay = [];
   const objArray = [];
   //returns id of appointments on given day 
@@ -30,5 +30,24 @@ export const getInterview = (state, i) => {
       avatar: state.interviewers[i.interviewer].avatar
     }
   }
+}
+
+export function getInterviewersForDay(state, day) {
+  const interviewersOnDay = [];
+  const objArray = [];
+
+  //returns id of appointments on given day 
+  state.days.map(d => {
+    if (d.name === day) {
+      console.log(d);
+      d.interviewers.forEach(i => interviewersOnDay.push(i));
+    } 
+  });
+  interviewersOnDay.filter(id => {
+    if (state.interviewers[id]) {
+      objArray.push(state.interviewers[id]);
+    }
+  });
+  return objArray;
 }
 
