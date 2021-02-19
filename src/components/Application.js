@@ -3,7 +3,9 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import axios from 'axios';
-import { getAppointmentsForDay, getInterview }  from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay}  from "helpers/selectors";
+import useVisualMode from 'hooks/useVisualMode';
+const SHOW = "SHOW";
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -26,18 +28,40 @@ export default function Application(props) {
     })
   }, [])
   
-  //returns array of objects for given day
-  const appointmentObj = getAppointmentsForDay(state, state.day);
-  const appointment = appointmentObj.map((a) => {
-    const interview = getInterview(state, a.interview);
-    return (
-    <Appointment
-      key={a.id}
-      id={a.id}
-      time={a.time}
-      interview={interview}
-    />)
-  })
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+    .then(res => {
+        setState({...state, appointments})
+        return res
+      })
+  }
+
+   //returns array of objects for given day
+   const appointmentObj = getAppointmentsForDay(state, state.day);
+   const appointment = appointmentObj.map((a) => {
+     const interview = getInterview(state, a.interview);
+     const interviewers = getInterviewersForDay(state, state.day);
+     return (
+     <Appointment
+       key={a.id}
+       id={a.id}
+       time={a.time}
+       interview={interview}
+       interviewers={interviewers}
+       bookInterview={bookInterview}
+     />)
+   })
 
   return (
     <main className="layout">
@@ -65,7 +89,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {appointment}
-        <Appointment key="last" time="5pm" />
+        <Appointment key="last" time="5pm" bookInterview={bookInterview}/>
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
       </section>
     </main>
