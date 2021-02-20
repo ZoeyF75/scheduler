@@ -4,8 +4,6 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import axios from 'axios';
 import { getAppointmentsForDay, getInterview, getInterviewersForDay}  from "helpers/selectors";
-import useVisualMode from 'hooks/useVisualMode';
-const SHOW = "SHOW";
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -62,6 +60,24 @@ export default function Application(props) {
       .then(() => setState({...state, appointments}))
   }
 
+  function editInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: state.interview
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.post(`/api/apppointments/${id}`)
+    .then(res => {
+      setState({...state, appointments})
+      return res
+    })
+  }
+
    //returns array of objects for given day
    const appointmentObj = getAppointmentsForDay(state, state.day);
    const appointment = appointmentObj.map((a) => {
@@ -76,6 +92,7 @@ export default function Application(props) {
        interviewers={interviewers}
        bookInterview={bookInterview}
        cancelInterview={cancelInterview}
+       editInterview ={editInterview}
      />)
    })
 
