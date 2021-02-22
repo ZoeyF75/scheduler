@@ -21,7 +21,6 @@ export const getInterview = (state, i) => {
   if (!i) {
     return null;
   }
-
   return {
     student: i.student,
     interviewer: {
@@ -39,7 +38,7 @@ export function getInterviewersForDay(state, day) {
   //returns id of appointments on given day 
   state.days.map(d => {
     if (d.name === day) {
-      console.log(d);
+      // console.log(d);
       d.interviewers.forEach(i => interviewersOnDay.push(i));
     } 
   });
