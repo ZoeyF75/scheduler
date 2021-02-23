@@ -82,16 +82,16 @@ export default{
       });
     }
   }),
-  put: jest.fn(url => {
+  put: jest.fn(() => {
       //put request...
       return Promise.resolve({
         status: 204,
         statusText: "No Content",
         data: fixtures.interviewers
       });
-    
   }),
-  delete: jest.fn(url => {
+
+  delete: jest.fn(() => {
     //put request...
     return Promise.resolve({
       status: 200,
