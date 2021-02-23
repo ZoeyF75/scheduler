@@ -57,7 +57,7 @@ export default function useApplicationData(initial) {
     const days = [...state.days];
     days[idOfDay] = day;
 
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+    return axios.put(`/api/appointments/${id}`, {interview})
     .then(res => {
         setState({...state, appointments, days})
         return res
