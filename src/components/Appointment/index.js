@@ -61,8 +61,7 @@ export default function Appointment(props) {
           value={props.value} 
           interviewers={props.interviewers} 
           onCancel={back}
-          onSave={save}
-          isNew={true} 
+          onSave={save} 
           />}
       {mode === SAVING && <Status message="Saving" />}
       {mode === CONFIRM && 
@@ -76,7 +75,6 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer.id}
           onSave={save}
           onCancel={back}
-          isNew={false} 
         />
       )}
       {mode === SHOW && (

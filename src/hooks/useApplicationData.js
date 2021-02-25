@@ -47,7 +47,7 @@ export default function useApplicationData(initial) {
     const idOfDay = getDay(state.day);
 
     let day;
-    if (isNew) {
+    if (!state.appointments[id].interview) {
       //days@selected day decreases spot by one
       day = {
         ...state.days[idOfDay],
@@ -59,7 +59,7 @@ export default function useApplicationData(initial) {
       spots: state.days[idOfDay].spots
       }
     }
-    
+
     const days = [...state.days];
     days[idOfDay] = day;
 
