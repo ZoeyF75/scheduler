@@ -53,6 +53,7 @@ const fixtures = {
   }
 };
 
+//mock get, put and delete requests
 export default{
   defaults: { baseURL: "" },
   get: jest.fn(url => {
@@ -83,12 +84,12 @@ export default{
     }
   }),
   put: jest.fn(() => {
-      //put request...
-      return Promise.resolve({
-        status: 204,
-        statusText: "No Content",
-        data: fixtures.interviewers
-      });
+    //put request...
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content",
+      data: fixtures.interviewers
+    });
   }),
 
   delete: jest.fn(() => {
@@ -97,7 +98,6 @@ export default{
       status: 200,
       statusText: "content deleted",
       data: fixtures.interviewers
-    });
-  
-})
+    })
+  })
 };

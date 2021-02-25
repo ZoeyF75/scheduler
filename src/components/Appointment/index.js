@@ -24,25 +24,22 @@ export default function Appointment(props) {
   );
 
   useEffect(() => {
-    
     if (props.interview && mode === EMPTY) {
       transition(SHOW);
     }
-    
     if (!props.interview && mode === SHOW) {
       transition(EMPTY);
     }
-
   }, [mode, transition, props.interview])
 
-  function save(name, interviewer) {
+  function save(name, interviewer, isNew) {
     transition(SAVING, true);
     const interview = {
       student: name,
       interviewer
     };
 
-  props.bookInterview(props.id, interview)
+  props.bookInterview(props.id, interview, isNew)
     .then(() => transition(SHOW))
     .catch(error => transition(ERROR_SAVE, true));
   }
@@ -64,7 +61,9 @@ export default function Appointment(props) {
           value={props.value} 
           interviewers={props.interviewers} 
           onCancel={back}
-          onSave={save}/>}
+          onSave={save}
+          isNew={true} 
+          />}
       {mode === SAVING && <Status message="Saving" />}
       {mode === CONFIRM && 
         <Confirm message="Are you sure?" onCancel={back} onConfirm={cancel}/>}
@@ -77,13 +76,13 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer.id}
           onSave={save}
           onCancel={back}
+          isNew={false} 
         />
       )}
       {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onEdit={() => console.log("onEdit")}
           onEdit={() => transition(EDIT)}
           onDelete={() => transition(CONFIRM)}
         />

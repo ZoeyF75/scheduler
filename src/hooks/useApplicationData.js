@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
-//import Daylist is in application.js
+import axios from "axios";
 
 const getDay = (day) => {
   const idOfDay = {
@@ -17,7 +16,6 @@ export default function useApplicationData(initial) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
     interviewers: {}
   });
@@ -34,26 +32,34 @@ export default function useApplicationData(initial) {
     })
   }, [])
   
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, isNew) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
     };
-    
-    //gets index of selected day
-    const idOfDay = getDay(state.day);
-
+     
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
 
-    //days@selected day decreases spot by one
-    const day = {
+    //gets index of selected day
+    const idOfDay = getDay(state.day);
+
+    let day;
+    if (isNew) {
+      //days@selected day decreases spot by one
+      day = {
+        ...state.days[idOfDay],
+        spots: state.days[idOfDay].spots - 1
+      }
+    } else {
+      day = {
       ...state.days[idOfDay],
-      spots: state.days[idOfDay].spots - 1
+      spots: state.days[idOfDay].spots
+      }
     }
-   
+    
     const days = [...state.days];
     days[idOfDay] = day;
 
@@ -64,6 +70,7 @@ export default function useApplicationData(initial) {
       })
   }
   
+  //updates state with interview value of null
   function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],

@@ -1,5 +1,3 @@
-import InterviewerList from "components/InterviewerList";
-
 export function getAppointmentsForDay(state, day) {
   const appointmentsOnDay = [];
   const objArray = [];
@@ -38,7 +36,6 @@ export function getInterviewersForDay(state, day) {
   //returns id of appointments on given day 
   state.days.map(d => {
     if (d.name === day) {
-      // console.log(d);
       d.interviewers.forEach(i => interviewersOnDay.push(i));
     } 
   });

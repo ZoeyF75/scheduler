@@ -20,13 +20,11 @@ export default function useVisualMode(initial) {
         [...prev, newMode] // add newMode to history 
         //[EMPTY, CREATE, EDIT]
       );
-      console.log("History:", history);
     }
   }
 
   // function will allow us to return to the previous mode
   const back = () => {
-
     if (history.length > 1) {
       setHistory(prev => 
         [...prev.slice(0, prev.length-1)]
@@ -35,9 +33,7 @@ export default function useVisualMode(initial) {
 
       );
     };
-
   };
-  console.log("This is the history:", history);
 
   const mode = history[history.length-1];
   return { mode: mode, transition, back };

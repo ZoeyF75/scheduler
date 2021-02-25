@@ -20,7 +20,7 @@ export default function Form(props) {
   }
 
   const save = () => {
-    props.onSave(name, interviewer);
+    props.onSave(name, interviewer, props.isNew);
   }
 
   function validate() {
@@ -35,7 +35,9 @@ export default function Form(props) {
   return(
     <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
+      {/* prevents page refresh */}
       <form autoComplete="off" onSubmit={event => event.preventDefault()}>
+        {/* input where student enters name */}
         <input
           className="appointment__create-input text--semi-bold"
           name="name"
@@ -47,7 +49,10 @@ export default function Form(props) {
         />
       </form>
       <section className="appointment__validation">{error}</section>
-      <InterviewerList interviewers={props.interviewers} value={interviewer} onChange={setInterviewer} />
+      <InterviewerList 
+        interviewers={props.interviewers} 
+        value={interviewer} 
+        onChange={setInterviewer} />
     </section>
     <section className="appointment__card-right">
       <section className="appointment__actions">
