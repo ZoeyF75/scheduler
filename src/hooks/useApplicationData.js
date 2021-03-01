@@ -32,7 +32,7 @@ export default function useApplicationData(initial) {
     })
   }, [])
   
-  function bookInterview(id, interview, isNew) {
+  function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
